@@ -9,8 +9,8 @@ var socket = require('socket.io');
 var port = process.env.PORT || 8000;
 app.set('port', port);
 app.use(express.static(__dirname + '/public'));
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
+// app.set('views', __dirname + '/views');
+// app.set('view engine', 'ejs');
 var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false}));
 // app.use(bodyParser.json());
@@ -22,33 +22,74 @@ var myQuestion = "";
 var collectedValues = [];
 var passNewMessage;
 var sentQuestions = "";
+var runLuck;
+var runOne = false;
+var newData = {}
+function setQuestion (sentQuestions1){
+  sentQuestions = sentQuestions1;
+  // console.log("This is the question" + sentQuestions);
+   newData = {message:sentQuestions};
+  
+}
 
 
 
-app.get('/', function (request, res) {
-  // console.log(sentQuestions);
-  console.log("im working");
-  if (sentQuestions != "" ){ 
-    console.log(sentQuestions);
-    res.render('index',{gathered:sentQuestions}); }else{
-    res.render('index');  }
+// app.get('/', function (request, res) {
+//   // console.log(sentQuestions);
+//   console.log("im working");
+//   if (sentQuestions != "" ){ 
+//     console.log(sentQuestions);
+//     res.render('index',{gathered:sentQuestions}); }else{
+//     res.render('index');  }
+// });
+
+// app.post('/', function (req, res) {
+//   // sends input values over to Watson
+//   myQuestion =  req.body.entries;
+//   reRun = true;
+//   passNewMessage(myQuestion);
+//  console.log(sentQuestions);
+// });
+
+var server = app.listen(port, function(){
+  console.log(`app is running on port ${port}`);
 });
 
-app.post('/', function (req, res) {
-  // sends input values over to Watson
-  myQuestion =  req.body.entries;
-  reRun = true;
-  passNewMessage(myQuestion);
-  // if (sentQuestions  != "" ){ 
-  //   console.log(sentQuestions);
-  //   res.render('index',{gathered2:sentQuestions}); }else{
-  //   res.render('index');  }
- console.log(sentQuestions);
+//socket seßt up
+
+
+var io = socket(server);
+io.on('connection',function (socket) {
+  console.log("socket made connection",socket.id);
+// once program starts
+  // socket.emit('start',newData)
+
+// socket.on('beginning' ,function() {
+//   io.sockets.emit('start',newData)
+// })
+
+// communication
+socket.on('start',function(data){
+console.log(" getting close"+ sentQuestions);
+    io.sockets.emit('start',newData);
+})
+
+
+  socket.on('chat',function(data){
+    console.log(newData);
+    reRun = true;
+    passNewMessage(data.message);
+    io.sockets.emit('chat',newData);
+  });
 });
+
+
+
 // ──────────────────────────────────────────────────────────────────────────────
 // ────────────WATSON CONVO────────────────────────────────────────────────────────────────────
 // Example 4: implements app actions.
 // Set up Conversation service.
+
 var conversation = new ConversationV1({
    username: 'f55b9412-ae70-4d7f-aa15-65108e3cab1c', // replace with username from service key
    password: 'rNtonaEkcb6b', // replace with password from service key
@@ -81,6 +122,7 @@ function processResponse(err, response) {
     if (response.output.text.length != 0) {
         console.log(response.output.text[0]);
         sentQuestions = response.output.text[0];
+      setQuestion (sentQuestions);
         
         // here I collect all values entered into watson
         if (response.context.location && response.context.rooms && response.context.houseorapp && response.context.currency && response.context.residencetype ){
@@ -96,9 +138,9 @@ function processResponse(err, response) {
 
  
   // If we're not done, prompt for the next round of input.
-   passNewMessage = function (){
+   passNewMessage = function (theInfo){
   if ((!endConversation) && reRun) {
-    var newMessageFromUser = myQuestion;
+    var newMessageFromUser = theInfo;
     // console.log("this is a new message");
     conversation.message({
       input: { text: newMessageFromUser },
@@ -112,15 +154,7 @@ function processResponse(err, response) {
 
 
 // ────────────────────────────────────────────────────────────────────────────────
-var server = app.listen(port, function(){
-  console.log(`app is running on port ${port}`);
-});
 
-var io = socket(server);
-io.on('connection',function (socket) {
-  console.log("socket made connection");
-  
-});
 
 
   
