@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+   
+   <title>Document</title>
+   <style>
+      body {
+         background-color: black;
+      }
+
+      #watson-logo{
+         height: 300px;
+         width: auto;
+         margin-top:0px; 
+         
+      }
+
+      #myimg{
+         display: flex;
+         justify-content: center;
+      }
+
+      #output {
+         background-color: white;
+      }
+
+
+   </style>
+</head>
+<body>
+   <h1>Hello World </h1>
+   <!-- <div style="width:100%;height:0px;padding-bottom:89%;position:relative;"><iframe src="https://giphy.com/embed/l3vR16pONsV8cKkWk" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/motion-logo-health-l3vR16pONsV8cKkWk">via GIPHY</a></p> -->
+   
+   <div class="container">  
+   <div id="myimg">
+
+
+  <img  id='watson-logo' src="/images/source.gif" alt="">
+
+</div>
+<div id="output">
+<%=gathered%>
+
+</div>
+<form action="/" method="post">
+      <div class="form-group">
+        <label for="exampleInputEmail1"></label>
+        <input type="text" name="entries" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Type Response">
+        <small id="emailHelp" class="form-text text-muted">Use this input form to seach for housing</small>
+      </div>
+    
+      <button type="submit" class="btn btn-primary">Submit Response</button>
+    </form>
+
+</div>
+
+<script src="chat.js"></script>
+</body>
+</html>

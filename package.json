@@ -1,0 +1,19 @@
+{
+  "name": "housingchat",
+  "version": "1.0.0",
+  "description": "talking bot",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jose",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
+    "express": "^4.16.1",
+    "prompt-sync": "^4.1.5",
+    "socket.io": "^2.0.3",
+    "watson-developer-cloud": "^2.39.2"
+  }
+}
