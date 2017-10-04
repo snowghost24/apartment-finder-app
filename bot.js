@@ -5,6 +5,7 @@ var watson = require('watson-developer-cloud');
 var prompt = require('prompt-sync')();
 var ConversationV1 = require('watson-developer-cloud/conversation/v1');
 var socket = require('socket.io');
+
 // ────────────────────────────────────────────────────────────────────────────────
 var port = process.env.PORT || 8000;
 app.set('port', port);
