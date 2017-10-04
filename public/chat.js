@@ -1,41 +1,23 @@
 // make connection
 var socket = io.connect('http://localhost:8000');
-//query Dom
+//query the Dom
 var message = document.getElementById('message');
-var handle = document.getElementById('handle');
-var btn = document.getElementById('send');
+var btn = document.querySelector('#send');
 var output = document.getElementById('output');
-var outputer = document.getElementById('outputer');
-console.log(message);
-console.log(handle);
-// initial message
 var x = 1;
 
-do {
-getData();
-}
-while (x == 0);
+// ────────────────────────────────────────────────────────────────────────────────
 
-function getData(){
-   console.log("I'm trying ");
-   socket.emit('start', {
-      message:"see if it made it"
-   })
-}
-  
-
-
+//Here we use this socket to pass the first message from watson 
 socket.on('start',function(data){
    output.innerHTML ='<p>' + data.message+ '</p>'
 })
 
-// ────────────────────────────────────────────────────────────────────────────────
-
-// emit event
+// emit event and clear the input
 btn.addEventListener('click',function () {
    socket.emit('chat', {
-      message:message.value
-   })
+      message:message.value})
+      message.value = "";
 });
 
 // listen for events
