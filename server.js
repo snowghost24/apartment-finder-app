@@ -10,7 +10,10 @@ var bodyParser = require('body-parser')
 var port = process.env.PORT || 8000;
 app.set('port', port);
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 // ────────────────────────────────────────────────────────────────────────────────
 
 //set up global variables
@@ -23,6 +26,7 @@ var sentQuestions = "";
 var newData = {}
 var runIo;
 var io;
+var userData;
 
 // everytime watson sents back a response the question object is updated by this function
 function setQuestion(sentQuestions1) {
@@ -30,6 +34,10 @@ function setQuestion(sentQuestions1) {
   newData = { message: sentQuestions };
   runIo();
 }
+
+//requires routes
+require("./routing/apiRoutes")(app);
+// require("./routing/htmlRoutes")(app);
 
 // listen to port and promise the server 
 var server = app.listen(port, function () {
@@ -103,6 +111,8 @@ function processResponse(err, response) {
         collectedValues.push(response.context.currency);
         console.log(typeof collectedValues);
         console.log("these are collected values "+ collectedValues);
+        userData = collectedValues;
+        module.exports = userData;
       }
     }
   }
@@ -123,7 +133,21 @@ function processResponse(err, response) {
 
 // ────────────────────────────────────────────────────────────────────────────────
 
+     // AJAX post the data to the friends API.
+  //     if (userData != ""){
 
+  //    $.post("/api/friends", userData, function(data) {
+  //     // Grab the result from the AJAX post so that the best match's name and photo are displayed.
+  //     $("#match-name").text(data.name);
+  //     $("#match-img").attr("src", data.photo);
+  //     // Show the modal with the best match
+  //     $("#results-modal").modal("toggle");
+  //   });
+  //     } else {
+  //   alert("Please fill out all fields before submitting!");
+  // }
+
+  
 
 
 
