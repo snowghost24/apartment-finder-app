@@ -1,9 +1,9 @@
 var properties = require("../data/properties");
-var userData = require("../server")
+//var userData = require("./../server")
 // exportes outs and requires app
-module.exports = function(app) {
-
-
+//console.log("This is line 4", userData);
+module.exports = function(app, userData) {
+  console.log(userData);
   app.get("/api/properties", function(req, res) {
    console.log(userData);
     res.json(properties);

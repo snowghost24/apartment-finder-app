@@ -28,6 +28,7 @@ var runIo;
 var io;
 var userData;
 
+
 // everytime watson sents back a response the question object is updated by this function
 function setQuestion(sentQuestions1) {
   sentQuestions = sentQuestions1;
@@ -36,7 +37,7 @@ function setQuestion(sentQuestions1) {
 }
 
 //requires routes
-require("./routing/apiRoutes")(app);
+
 // require("./routing/htmlRoutes")(app);
 
 // listen to port and promise the server 
@@ -104,15 +105,16 @@ function processResponse(err, response) {
 
       // here I collect all values entered into watson
       if (response.context.location && response.context.rooms && response.context.houseorapp && response.context.currency && response.context.residencetype) {
+        console.log("IT IS GOING HERE");
         collectedValues.push(response.context.location);
         collectedValues.push(response.context.houseorapp);
         collectedValues.push(response.context.residencetype);
         collectedValues.push(response.context.rooms);
         collectedValues.push(response.context.currency);
-        console.log(typeof collectedValues);
-        console.log("these are collected values "+ collectedValues);
+        console.log("these are collected values", collectedValues);
         userData = collectedValues;
-        module.exports = userData;
+        console.log(userData);
+        require("./routing/apiRoutes")(app, userData);
       }
     }
   }
