@@ -36,10 +36,6 @@ function setQuestion(sentQuestions1) {
   runIo();
 }
 
-//requires routes
-
-// require("./routing/htmlRoutes")(app);
-
 // listen to port and promise the server 
 var server = app.listen(port, function () {
   console.log(`app is running on port ${port}`);
@@ -105,7 +101,6 @@ function processResponse(err, response) {
 
       // here I collect all values entered into watson
       if (response.context.location && response.context.rooms && response.context.houseorapp && response.context.currency && response.context.residencetype) {
-        console.log("IT IS GOING HERE");
         collectedValues.push(response.context.location);
         collectedValues.push(response.context.houseorapp);
         collectedValues.push(response.context.residencetype);
@@ -113,7 +108,6 @@ function processResponse(err, response) {
         collectedValues.push(response.context.currency);
         console.log("these are collected values", collectedValues);
         userData = collectedValues;
-        console.log(userData);
         require("./routing/apiRoutes")(app, userData);
       }
     }
@@ -132,24 +126,6 @@ function processResponse(err, response) {
   }
 }
 
-
-// ────────────────────────────────────────────────────────────────────────────────
-
-     // AJAX post the data to the friends API.
-  //     if (userData != ""){
-
-  //    $.post("/api/friends", userData, function(data) {
-  //     // Grab the result from the AJAX post so that the best match's name and photo are displayed.
-  //     $("#match-name").text(data.name);
-  //     $("#match-img").attr("src", data.photo);
-  //     // Show the modal with the best match
-  //     $("#results-modal").modal("toggle");
-  //   });
-  //     } else {
-  //   alert("Please fill out all fields before submitting!");
-  // }
-
-  
 
 
 
