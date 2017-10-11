@@ -7,8 +7,8 @@ var socket = require('socket.io');
 var bodyParser = require('body-parser')
 
 // ────────────────────────────────────────────────────────────────────────────────
-var port = process.env.PORT || 8000;
-app.set('port', port);
+var PORT = process.env.PORT || 8000;
+app.set('port', PORT);
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,9 +37,16 @@ function setQuestion(sentQuestions1) {
 }
 
 // listen to port and promise the server 
-var server = app.listen(port, function () {
-  console.log(`app is running on port ${port}`);
+var server = app.listen(PORT, function () {
+  console.log(`app is running on port ${PORT}`);
 });
+
+
+
+
+// const server = express()
+// .use((req, res) => res.sendFile(index) )
+// .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 
 // Set up socket.io
