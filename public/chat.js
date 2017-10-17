@@ -1,5 +1,6 @@
 // make connection
-var socket = io.connect('http://localhost:8000');
+// var socket = io.connect('http://localhost:8000');
+var socket = io.connect('https://hidden-tundra-73286.herokuapp.com/');
 //query the Dom
 var message = document.getElementById('message');
 var btn = document.querySelector('#send');
